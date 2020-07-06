@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mobile.pmmp">
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <application
+        android:requestLegacyExternalStorage="true"
+        android:allowBackup="true"
+        android:icon="@drawable/vaa_title"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/vaa_title"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".LaporanMaintenance"></activity>
+        <activity android:name=".user.StatusMesin" />
+        <activity android:name=".admin.TambahPetugas" />
+        <activity android:name=".admin.DetailDataPetugas" />
+        <activity android:name=".admin.DataPetugas" />
+        <activity android:name=".admin.AbsenPetugasAdmin" />
+        <activity android:name=".admin.SubmitJadwalPetugas" />
+        <activity android:name=".AccountActivity" />
+        <activity android:name=".DetailLaporan" />
+        <activity android:name=".RiwayatLaporan" />
+        <activity android:name=".user.LaporanUser" />
+        <activity android:name=".user.RiwayatAbsenUser" />
+        <activity android:name=".user.AbsenPetugasUser" />
+        <activity android:name=".DetailJadwal" />
+        <activity android:name=".JadwalPetugas" />
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".PDFViewer" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".MenuLoginActivity" />
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
