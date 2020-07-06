@@ -56,18 +56,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initViewAdmin() {
         LinearLayout btnJadwalPetugas = (LinearLayout)findViewById(R.id.jadwal_petugas_user);
-//        LinearLayout btnCheckStatus = (LinearLayout)findViewById(R.id.check_status_mesin);
-//        LinearLayout btnLaporanMaintenance = (LinearLayout)findViewById(R.id.laporan_maintenance_user);
-//        LinearLayout btnAkun = (LinearLayout)findViewById(R.id.akun_user);
+
         LinearLayout btnLogout = (LinearLayout)findViewById(R.id.logout_user);
         LinearLayout btnLogoutAdmin = (LinearLayout)findViewById(R.id.logout_admin);
         LinearLayout btnDataPetugasAdmin = (LinearLayout)findViewById(R.id.data_petugas);
         LinearLayout btnAkunUser = (LinearLayout)findViewById(R.id.akun_user);
 
         btnJadwalPetugas.setOnClickListener(this);
-//        btnCheckStatus.setOnClickListener(this);
-//        btnLaporanMaintenance.setOnClickListener(this);
-//        btnAkun.setOnClickListener(this);
+
         btnLogout.setOnClickListener(this);
         btnLogoutAdmin.setOnClickListener(this);
         btnDataPetugasAdmin.setOnClickListener(this);

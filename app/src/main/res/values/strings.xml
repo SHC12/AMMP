@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">PMMP</string>
+    <string name="aplikasi_pelaporan_mesin_parkir_v_1_0">
+        Aplikasi Pelaporan Mesin Parkir V.1.0\n
+        Oleh Mathius Aditya\n
+        2022161094
+    </string>
+    <string name="user">M Aditya</string>
+    <string name="login">Login</string>
+    <string-array name="status_absen">
+        <item>Hadir</item>
+        <item>Tidak Hadir</item>
+        <item>Sakit</item>
+        <item>Cuti</item>
+    </string-array>
+</resources>
