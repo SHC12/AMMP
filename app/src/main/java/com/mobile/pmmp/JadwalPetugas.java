@@ -66,6 +66,7 @@ public class JadwalPetugas extends AppCompatActivity {
             public void onRowClick(View view, int position) {
                 Intent i = new Intent(JadwalPetugas.this, DetailJadwal.class);
                 i.putExtra(DetailJadwal.DETAIL_JADWAL_PETUGAS,listRutin.get(position-1));
+                i.putExtra("trigger","jadwal");
                 startActivity(i);
             }
         };
@@ -75,6 +76,7 @@ public class JadwalPetugas extends AppCompatActivity {
             public void onRowClick(View view, int position) {
                 Intent i = new Intent(JadwalPetugas.this, DetailJadwal.class);
                 i.putExtra(DetailJadwal.DETAIL_JADWAL_PETUGAS,listKomplain.get(position-1));
+                i.putExtra("trigger","jadwal");
                 startActivity(i);
             }
         };

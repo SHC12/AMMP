@@ -23,12 +23,14 @@ public class TableAdapterRiwayatLaporan extends RecyclerView.Adapter {
     private Context mContext;
     private List<Laporan> laporanList;
     private RecyclerViewClickListener mListener;
+    private String adapterTrigger;
     private int no = 0;
 
-    public TableAdapterRiwayatLaporan(List<Laporan> laporanList, Context context, RecyclerViewClickListener listener) {
+    public TableAdapterRiwayatLaporan(List<Laporan> laporanList, Context context, RecyclerViewClickListener listener,String adapterTrigger) {
         this.laporanList = laporanList;
         this.mContext = context;
         this.mListener = listener;
+        this.adapterTrigger = adapterTrigger;
     }
 
     @NonNull
@@ -57,10 +59,16 @@ public class TableAdapterRiwayatLaporan extends RecyclerView.Adapter {
             rowViewHolder.txtNo.setTextColor(Color.WHITE);
             rowViewHolder.txtTanggal.setTextColor(Color.WHITE);
             rowViewHolder.txtKode.setTextColor(Color.WHITE);
+            if(adapterTrigger.equals("laporan")){
+                rowViewHolder.txtNo.setText("Kode");
+                rowViewHolder.txtTanggal.setText("Tanggal");
+                rowViewHolder.txtKode.setText("Nama");
+            }else{
+                rowViewHolder.txtNo.setText("No");
+                rowViewHolder.txtTanggal.setText("Tanggal");
+                rowViewHolder.txtKode.setText("Kode");
+            }
 
-            rowViewHolder.txtNo.setText("No");
-            rowViewHolder.txtTanggal.setText("Tanggal");
-            rowViewHolder.txtKode.setText("Kode");
         } else {
             Laporan modal = laporanList.get(rowPos - 1);
             no++;
@@ -71,9 +79,16 @@ public class TableAdapterRiwayatLaporan extends RecyclerView.Adapter {
             rowViewHolder.txtNo.setTextColor(Color.BLACK);
             rowViewHolder.txtTanggal.setTextColor(Color.BLACK);
             rowViewHolder.txtKode.setTextColor(Color.BLACK);
-            rowViewHolder.txtNo.setText(""+no);
-            rowViewHolder.txtTanggal.setText(modal.getTanggal() + "");
-            rowViewHolder.txtKode.setText(modal.getKode() + "");
+            if(adapterTrigger.equals("laporan")){
+                rowViewHolder.txtNo.setText(modal.getKode());
+                rowViewHolder.txtTanggal.setText(modal.getTanggal() + "");
+                rowViewHolder.txtKode.setText(modal.getNama_petugas() + "");
+            }else{
+                rowViewHolder.txtNo.setText(""+no);
+                rowViewHolder.txtTanggal.setText(modal.getTanggal() + "");
+                rowViewHolder.txtKode.setText(modal.getKode() + "");
+            }
+
 
         }
     }

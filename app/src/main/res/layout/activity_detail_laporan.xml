@@ -62,6 +62,76 @@
                 android:layout_height="match_parent"
                 android:layout_weight=".05"
                 android:background="@drawable/table_content_cell_bg"
+                android:text="Kode"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/kodeDetailLaporan"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/table_content_cell_bg"
+                android:textColor="@android:color/black" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:gravity="left">
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".05"
+                android:background="@drawable/table_content_cell_bg"
+                android:text="Nama Petugas"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/namaDetailLaporan"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/table_content_cell_bg"
+                android:textColor="@android:color/black" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:gravity="left">
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".05"
+                android:background="@drawable/table_content_cell_bg"
+                android:text="Shift"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/shiftDetailLaporan"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/table_content_cell_bg"
+                android:textColor="@android:color/black" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:gravity="left">
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".05"
+                android:background="@drawable/table_content_cell_bg"
                 android:text="Tanggal"
                 android:textColor="@android:color/black" />
 
@@ -90,7 +160,6 @@
             <TextView
                 android:id="@+id/noMesinDetailLaporan"
                 android:layout_width="220dp"
-                android:text="DKI 0067"
                 android:layout_height="wrap_content"
                 android:background="@drawable/table_content_cell_bg"
                 android:textColor="@android:color/black" />
@@ -134,7 +203,7 @@
                 android:textColor="@android:color/black" />
 
             <TextView
-                android:id="@+id/statusMesinDetailLaporan"
+                android:id="@+id/permasalahanDetailLaporan"
                 android:layout_width="220dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/table_content_cell_bg"

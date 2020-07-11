@@ -86,6 +86,23 @@ public interface ApiInterface {
             @Field("jenis_jadwal") String jenis_jadwal
     );
 
+    @POST("api_android/absensi_petugas.php")
+    Call<List<Jadwal>> getAbsensi();
+
+
+    @FormUrlEncoded
+    @POST("api_android/update_password.php")
+    Call<ResponseBody> updatePassword(
+            @Field("id") String id,
+            @Field("new_password") String newPass
+    );
+
+    @FormUrlEncoded
+    @POST("api_android/delete_user.php")
+    Call<ResponseBody> deleteUser(
+            @Field("id_user") String id
+    );
+
     @FormUrlEncoded
     @POST("api_android/delete_jadwal.php")
     Call<ResponseBody> deleteJadwal(
@@ -95,12 +112,56 @@ public interface ApiInterface {
     @POST("api_android/get_nama_petugas.php")
     Call<ResponseBody> getPetugas();
 
+    @FormUrlEncoded
+    @POST("api_android/get_konten.php")
+    Call<ResponseBody> getKonten(
+            @Field("jenis_konten") String konten
+    );
+
     @POST("api_android/get_petugas.php")
     Call<List<Petugas>> getPetugasAdmin();
 
     @GET
     Call<ResponseBody> downloadFoto(@Url String url);
 
+    @Multipart
+    @POST("api_android/update_image.php")
+    Call<ResponseBody> updateImage(
+            @Part("id") RequestBody id,
+            @Part("nama_lengkap") RequestBody name,
+            @Part MultipartBody.Part foto);
 
+
+    @Multipart
+    @POST("api_android/edit_petugas_foto.php")
+    Call<ResponseBody> editPetugasFoto(
+            @Part("id_user") RequestBody id,
+            @Part("nama_lengkap") RequestBody nama,
+            @Part("username") RequestBody username,
+            @Part("password") RequestBody password,
+            @Part MultipartBody.Part foto);
+
+    @FormUrlEncoded
+    @POST("api_android/edit_petugas.php")
+    Call<ResponseBody> editPetugas(
+            @Field("id_user") String id,
+            @Field("nama_lengkap") String nama,
+            @Field("username") String  username,
+            @Field("password") String  password
+    );
+
+
+    @GET("api_android/export_riwayat_laporan.php")
+    Call<ResponseBody> downloadLaporanPetugas(@Query("id_user") String id_user);
+
+
+    @GET("api_android/export_riwayat_laporan_all.php")
+    Call<ResponseBody> downloadLaporanAdmin();
+
+    @GET("api_android/export_absen.php")
+    Call<ResponseBody> downloadAbsenPetugas();
+
+    @GET("api_android/export_data_petugas.php")
+    Call<ResponseBody> downloadDataPetugas();
 
 }

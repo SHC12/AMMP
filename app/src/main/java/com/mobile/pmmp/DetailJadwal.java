@@ -31,7 +31,7 @@ import retrofit2.Response;
 public class DetailJadwal extends AppCompatActivity {
 
     public static final String DETAIL_JADWAL_PETUGAS = "detail_jadwal" ;
-    private TextView kode,jenis,tanggal,noMesin,lokasi,status, shift, petugas,permasalahan;
+    private TextView kode,jenis,tanggal,noMesin,lokasi,status, shift, petugas,permasalahan,title;
     private MaterialButton btnDelete;
     private ProgressDialog progressDialog;
     @Override
@@ -45,6 +45,7 @@ public class DetailJadwal extends AppCompatActivity {
         lokasi = findViewById(R.id.lokasiDetailJadwal);
         permasalahan = findViewById(R.id.permasalahanDetailJadwal);
         shift = findViewById(R.id.shiftDetailJadwal);
+        title = findViewById(R.id.title_detail_jadwal);
         petugas = findViewById(R.id.petugasDetailJadwal);
         kode = findViewById(R.id.kodeDetailJadwal);
         jenis = findViewById(R.id.jenisDetailJadwal);
@@ -56,6 +57,13 @@ public class DetailJadwal extends AppCompatActivity {
         String level = user.get(SessionManager.LEVEL);
         if(level.equals("1")){
             btnDelete.setVisibility(View.GONE);
+        }
+        String trigger = getIntent().getStringExtra("trigger");
+        if(trigger.equals("absen")){
+            btnDelete.setVisibility(View.GONE);
+            title.setText("Detail Absen Petugas");
+        }else{
+
         }
         Jadwal jadwal = getIntent().getParcelableExtra(DETAIL_JADWAL_PETUGAS);
         String mKode = jadwal.getKode_jadwa();

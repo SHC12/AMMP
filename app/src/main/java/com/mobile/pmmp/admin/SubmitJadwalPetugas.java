@@ -43,9 +43,11 @@ import retrofit2.Response;
 public class SubmitJadwalPetugas extends AppCompatActivity {
     private String[] shift = {"Shift 1","Shift 2"};
     private String[] jenis_jadwal = {"Jadwal Rutin","Jadwal Komplain"};
-    private String[] permasalahan = {"Mesin Mati","Kertas Habis","Baterai Lowbat"};
-    private String[] lokasi = {"Jl.Juanda Raya","Jl.Pencongan","Jl.Pintu Air","Jl.Batu Tulis","Jl.H.Agus Salim"};
+//    private String[] permasalahan = {"Mesin Mati","Kertas Habis","Baterai Lowbat"};
+//    private String[] lokasi = {"Jl.Juanda Raya","Jl.Pencongan","Jl.Pintu Air","Jl.Batu Tulis","Jl.H.Agus Salim"};
     private ArrayList<String> namaPetugas = new ArrayList<>();
+    private ArrayList<String> konten = new ArrayList<>();
+    private ArrayList<String> kontenPermasalahan = new ArrayList<>();
     private AutoCompleteTextView spJenisJadwal,spShift,spNama,spLokasi,spPermasalahan,spNomorMesin;
     private EditText edtTanggal,edtKode;
     private String newKode;
@@ -79,6 +81,8 @@ public class SubmitJadwalPetugas extends AppCompatActivity {
         spNomorMesin = findViewById(R.id.in_nomor_mesin);
         btnSubmitJadwal = findViewById(R.id.btn_submit_jadwal);
         initSpinner();
+        getKontenLokasi(spLokasi);
+        getKontenPermasalahan(spPermasalahan);
         getPetugas(spNama);
         initToolbar();
 
@@ -163,9 +167,7 @@ public class SubmitJadwalPetugas extends AppCompatActivity {
     private void initSpinner() {
         getSpinner(spJenisJadwal, jenis_jadwal);
         getSpinner(spShift, shift);
-        getSpinner(spLokasi, lokasi);
         getSpinnerNoMesin(spNomorMesin,numberArray(200));
-        getSpinner(spPermasalahan, permasalahan);
         spJenisJadwal.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -214,6 +216,70 @@ public class SubmitJadwalPetugas extends AppCompatActivity {
                             Log.d("API",""+namaPetugas.size());
                             String[] listPetugas = namaPetugas.toArray(new String[namaPetugas.size()]);
                             getSpinner(nama, listPetugas);
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    progressDialog.dismiss();
+                    Toast.makeText(SubmitJadwalPetugas.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        private void getKontenLokasi(AutoCompleteTextView lokasi) {
+        progressDialog.show();
+        progressDialog.setMessage("Loading...");
+        Call<ResponseBody> getKonten = apiInterface.getKonten("1");
+            getKonten.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        progressDialog.dismiss();
+                        try {
+                            JSONObject o = new JSONObject(response.body().string());
+                            JSONArray a = o.getJSONArray("Konten");
+                            for (int i = 0; i < a.length(); i++) {
+                                JSONObject ao = a.getJSONObject(i);
+                                konten.add(ao.getString("konten"));
+                            }
+                            String[] kontens = konten.toArray(new String[konten.size()]);
+                            getSpinner(lokasi, kontens);
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    progressDialog.dismiss();
+                    Toast.makeText(SubmitJadwalPetugas.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        private void getKontenPermasalahan(AutoCompleteTextView lokasi) {
+        progressDialog.show();
+        progressDialog.setMessage("Loading...");
+        Call<ResponseBody> getKonten = apiInterface.getKonten("2");
+            getKonten.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        progressDialog.dismiss();
+                        try {
+                            JSONObject o = new JSONObject(response.body().string());
+                            JSONArray a = o.getJSONArray("Konten");
+                            for (int i = 0; i < a.length(); i++) {
+                                JSONObject ao = a.getJSONObject(i);
+                                kontenPermasalahan.add(ao.getString("konten"));
+                            }
+                            String[] kontenss = kontenPermasalahan.toArray(new String[kontenPermasalahan.size()]);
+                            getSpinner(lokasi, kontenss);
                         } catch (JSONException | IOException e) {
                             e.printStackTrace();
                         }

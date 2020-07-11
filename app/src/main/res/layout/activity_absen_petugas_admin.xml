@@ -28,11 +28,10 @@
         android:id="@+id/tx_tgl_jadwal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hari Ini : "
+        android:text="Petugas yang sudah mengisi laporan dianggap hadir,jika belum mengisi laporan,status default tidak hadir"
         android:layout_margin="20dp"
-        android:textSize="20sp"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"
+        android:textSize="15sp"
+        android:textColor="@android:color/black"
         app:layout_constraintTop_toBottomOf="@+id/title_jadwal" />
 
 
@@ -44,7 +43,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tx_tgl_jadwal"
-        tools:listitem="@layout/jadwal_petugas_admin_items" />
+        tools:listitem="@layout/absen_petugas_items" />
 
 
     <com.google.android.material.button.MaterialButton

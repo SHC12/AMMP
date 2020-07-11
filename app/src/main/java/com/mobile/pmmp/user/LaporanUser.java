@@ -155,7 +155,7 @@ public class LaporanUser extends AppCompatActivity {
                         JSONObject o = new JSONObject(response.body().string());
                         if(o.getString("status").equals("1")){
                             Toast.makeText(LaporanUser.this, "Laporan berhasil di buat", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LaporanUser.this,RiwayatLaporan.class));
+                            startActivity(new Intent(LaporanUser.this,RiwayatLaporan.class).putExtra("trigger","riwayat"));
                         }else {
                             Toast.makeText(LaporanUser.this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
                         }

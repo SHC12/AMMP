@@ -15,7 +15,7 @@ public class SessionManager {
     public static final String NAMA = "NAMA";
     public static final String LEVEL = "LEVEL";
     public static final String PASSWORD = "PASSWORD";
-    public static final String FOTO= "PASSWORD";
+    public static final String FOTO= "FOTO";
     private static final String PREF_NAME = "LOGIN";
     private static final String LOGIN = "IS_LOGIN";
     public SharedPreferences.Editor editor;

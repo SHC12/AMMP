@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="Tidak Status Mesin"
+        android:text="Tidak Ada Status Mesin"
         android:textAlignment="center"
         android:textSize="25sp"
         android:textStyle="bold"

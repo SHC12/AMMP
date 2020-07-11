@@ -89,7 +89,7 @@ public class LaporanMaintenance extends AppCompatActivity {
     }
 
     public void toRiwayarLaporan(View view) {
-        startActivity(new Intent(LaporanMaintenance.this,RiwayatLaporan.class));
+        startActivity(new Intent(LaporanMaintenance.this,RiwayatLaporan.class).putExtra("trigger","riwayat"));
     }
 
     private void initToolbar() {

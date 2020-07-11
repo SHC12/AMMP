@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin.TambahPetugas">
+    tools:context=".admin.AksiPetugas">
 
 
     <include
@@ -24,12 +24,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include4" />
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image_edit_user"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_margin="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView4">
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/image_edit_user">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layout_nama"
@@ -106,8 +116,8 @@
             android:id="@+id/img_foto"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/ic_baseline_add_photo_alternate_24"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_baseline_add_photo_alternate_24" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_tambah_petugas"

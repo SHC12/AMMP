@@ -52,6 +52,7 @@ public class StatusMesin extends AppCompatActivity {
             public void onRowClick(View view, int position) {
                 Intent i = new Intent(StatusMesin.this,DetailJadwal.class);
                 i.putExtra(DetailJadwal.DETAIL_JADWAL_PETUGAS,listStatusMesin.get(position-1));
+                i.putExtra("trigger","jadwal");
                 startActivity(i);
             }
         };

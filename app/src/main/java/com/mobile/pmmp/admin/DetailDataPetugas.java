@@ -5,24 +5,24 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
 import com.mobile.pmmp.HomeActivity;
 import com.mobile.pmmp.R;
 import com.mobile.pmmp.api.ApiInterface;
 import com.mobile.pmmp.api.ApiService;
 import com.mobile.pmmp.model.Petugas;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +33,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class DetailDataPetugas extends AppCompatActivity {
 
@@ -41,6 +40,7 @@ public class DetailDataPetugas extends AppCompatActivity {
     private TextView id,nama,username,password;
     private CircleImageView imagePetugas;
     private ProgressDialog progressDialog;
+    private MaterialButton btnEdit,btnHapus;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +50,8 @@ public class DetailDataPetugas extends AppCompatActivity {
         username = findViewById(R.id.usernameDetailPetugas);
         password = findViewById(R.id.passwordDetailPetugas);
         imagePetugas = findViewById(R.id.img_petugas);
+        btnEdit = findViewById(R.id.btn_edit_user);
+        btnHapus = findViewById(R.id.btn_hapus_user);
 
         progressDialog = new ProgressDialog(this);
         Petugas petugas = getIntent().getParcelableExtra(DETAIL_PETUGAS);
@@ -73,11 +75,62 @@ public class DetailDataPetugas extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressDialog.setMessage("Downloading Image");
+                progressDialog.show();
                 downloadFoto(mFoto);
             }
         });
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(DetailDataPetugas.this, AksiPetugas.class);
+                i.putExtra("id",mId);
+                i.putExtra("foto",mFoto);
+                i.putExtra("nama",mNama);
+                i.putExtra("username",mUsername);
+                i.putExtra("password",mPassword);
+                i.putExtra("trigger","edit");
+                startActivity(i);
+            }
+        });
 
+        btnHapus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hapusUser(mId);
+            }
+        });
         initToolbar();
+    }
+
+    private void hapusUser(String mId) {
+        ApiInterface apiInterface = ApiService.getApiClient().create(ApiInterface.class);
+        Call<ResponseBody> deleteUser = apiInterface.deleteUser(mId);
+        deleteUser.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    try {
+                        JSONObject o = new JSONObject(response.body()
+                        .string());
+                        if(o.getString("status").equals("1")){
+                            Toast.makeText(DetailDataPetugas.this, "User berhasil di hapus", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(DetailDataPetugas.this,DataPetugas.class).putExtra("trigger","data_petugas"));
+                        }else{
+                            Toast.makeText(DetailDataPetugas.this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(DetailDataPetugas.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void downloadFoto(String mFoto) {

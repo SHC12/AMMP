@@ -7,11 +7,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Environment;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.mobile.pmmp.HomeActivity;
 import com.mobile.pmmp.PDFViewer;
 import com.mobile.pmmp.R;
@@ -20,9 +21,18 @@ import com.mobile.pmmp.api.ApiInterface;
 import com.mobile.pmmp.api.ApiService;
 import com.mobile.pmmp.model.Petugas;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,22 +43,56 @@ public class DataPetugas extends AppCompatActivity {
     private TableAdapterDataPetugas.RecyclerViewClickListener listener;
     private List<Petugas> listPetugas;
     private ApiInterface apiInterface;
-    private TextView noDataPetugas;
+    private MaterialButton btnExport,btnTambahPetugas;
+    private TextView noDataPetugas,title_bawah;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_petugas);
          apiInterface = ApiService.getApiClient().create(ApiInterface.class);
         rvDataPetugas = findViewById(R.id.rv_data_petugas_admin);
+        btnExport = findViewById(R.id.btnExportDataPetugas);
+        btnTambahPetugas = findViewById(R.id.btn_tambah_petugas);
+        title_bawah = findViewById(R.id.textView7);
         listPetugas = new ArrayList<>();
-        listener = new TableAdapterDataPetugas.RecyclerViewClickListener() {
+        String trigger = getIntent().getStringExtra("trigger");
+        if(trigger.equals("data_petugas")){
+            listener = new TableAdapterDataPetugas.RecyclerViewClickListener() {
+                @Override
+                public void onRowClick(View view, int position) {
+                    Intent i = new Intent(DataPetugas.this,DetailDataPetugas.class);
+                    i.putExtra(DetailDataPetugas.DETAIL_PETUGAS,listPetugas.get(position-1));
+                    startActivity(i);
+                }
+            };
+        }else{
+            listener = new TableAdapterDataPetugas.RecyclerViewClickListener() {
+                @Override
+                public void onRowClick(View view, int position) {
+                    hapusUser(listPetugas.get(position-1).getIdPetugas());
+                    listPetugas.remove(listPetugas.get(position-1));
+                    adapterDataPetugas.notifyItemRemoved(position);
+                    adapterDataPetugas.notifyItemRangeChanged(position,listPetugas.size());
+                }
+            };
+            title_bawah.setText("Klik nama untuk hapus");
+            btnTambahPetugas.setVisibility(View.GONE);
+            btnExport.setVisibility(View.GONE);
+
+        }
+        btnTambahPetugas.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onRowClick(View view, int position) {
-                Intent i = new Intent(DataPetugas.this,DetailDataPetugas.class);
-                i.putExtra(DetailDataPetugas.DETAIL_PETUGAS,listPetugas.get(position-1));
-                startActivity(i);
+            public void onClick(View v) {
+                toInsertDataPetugas();
             }
-        };
+        });
+
+        btnExport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ExportDataPetugas();
+            }
+        });
         noDataPetugas = findViewById(R.id.noDataPetugas);
         adapterDataPetugas = new TableAdapterDataPetugas(listPetugas,getApplicationContext(),listener);
         rvDataPetugas.setLayoutManager(new LinearLayoutManager(this));
@@ -58,6 +102,38 @@ public class DataPetugas extends AppCompatActivity {
         getPetugas();
         initToolbar();
     }
+
+    private void hapusUser(String mId) {
+        ApiInterface apiInterface = ApiService.getApiClient().create(ApiInterface.class);
+        Call<ResponseBody> deleteUser = apiInterface.deleteUser(mId);
+        deleteUser.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    try {
+                        JSONObject o = new JSONObject(response.body()
+                                .string());
+                        if(o.getString("status").equals("1")){
+                            Toast.makeText(DataPetugas.this, "User berhasil di hapus", Toast.LENGTH_SHORT).show();
+
+                        }else{
+                            Toast.makeText(DataPetugas.this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(DataPetugas.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -71,7 +147,7 @@ public class DataPetugas extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+               onBackPressed();
             }
         });
         getSupportActionBar().setTitle(null);
@@ -101,24 +177,92 @@ public class DataPetugas extends AppCompatActivity {
         });
     }
 
-//    private List<Petugas> getPetugas(){
-//        List<Petugas> petugases = new ArrayList<>();
-//        petugases.add(new Petugas("1","001","M. Aditya ","aditya","123"));
-//        petugases.add(new Petugas("2","002","Andika Pratama","andika","123"));
-//        petugases.add(new Petugas("3","003","Slamet Hariyanto","slamet","123"));
-//
-//
-//        return petugases;
-//
-//    }
 
-    public void toInsertDataPetugas(View view) {
-        startActivity(new Intent(DataPetugas.this,TambahPetugas.class));
+    private void toInsertDataPetugas() {
+        startActivity(new Intent(DataPetugas.this, AksiPetugas.class).putExtra("trigger","tambah"));
     }
 
-    public void ExportDataPetugas(View view) {
-        Intent intent =  new Intent(DataPetugas.this, PDFViewer.class);
-        intent.putExtra("trigger", "data_petugas");
-        startActivity(intent);
+    private void ExportDataPetugas() {
+        String fileName = "Data Petugas.pdf";
+        Call<ResponseBody> downloadDataPetugas = apiInterface.downloadDataPetugas();
+        downloadDataPetugas.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    boolean suc = writeResponseBodyToDisk(response.body(),fileName);
+                    if(suc){
+                        Toast.makeText(DataPetugas.this, "PDF berhasil di download, file tersimpan di folder Downloads", Toast.LENGTH_SHORT).show();
+
+                    }else{
+                        Toast.makeText(DataPetugas.this, "Gagal simpan PDF", Toast.LENGTH_SHORT).show();
+                    }
+
+                }else{
+                    Toast.makeText(DataPetugas.this, "error", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(DataPetugas.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(DataPetugas.this,HomeActivity.class));
+    }
+
+    private boolean writeResponseBodyToDisk(ResponseBody body,String path) {
+        try {
+            // todo change the file location/name according to your needs
+            File futureStudioIconFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                    path);
+
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+
+            try {
+                byte[] fileReader = new byte[4096];
+
+                long fileSize = body.contentLength();
+                long fileSizeDownloaded = 0;
+
+                inputStream = body.byteStream();
+                outputStream = new FileOutputStream(futureStudioIconFile);
+
+                while (true) {
+                    int read = inputStream.read(fileReader);
+
+                    if (read == -1) {
+                        break;
+                    }
+
+                    outputStream.write(fileReader, 0, read);
+
+                    fileSizeDownloaded += read;
+
+                }
+
+                outputStream.flush();
+
+                return true;
+            } catch (IOException e) {
+                return false;
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
 }

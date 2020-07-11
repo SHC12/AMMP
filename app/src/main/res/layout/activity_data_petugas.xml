@@ -61,25 +61,24 @@
         app:layout_constraintTop_toBottomOf="@+id/rv_data_petugas_admin" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/materialButton2"
+        android:id="@+id/btnExportDataPetugas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20sp"
         android:text="Export PDF"
-        android:onClick="ExportDataPetugas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_tambah_petugas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20sp"
         app:icon="@drawable/ic_baseline_add_circle_outline_24"
         style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
         android:text="Tambah Data Petugas"
-        android:onClick="toInsertDataPetugas"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialButton2" />
+        app:layout_constraintTop_toBottomOf="@+id/btnExportDataPetugas" />
 
 
 

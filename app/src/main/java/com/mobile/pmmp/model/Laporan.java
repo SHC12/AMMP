@@ -29,10 +29,14 @@ public class Laporan implements Parcelable {
     private String permasalahan;
     @SerializedName("penanganan")
     private String penanganan;
-    @SerializedName("ket_tambahan")
-    private String keterangan;
     @SerializedName("file")
     private String file;
+    @SerializedName("ket_tambahan")
+    private String keterangan;
+    @SerializedName("nama_petugas")
+    private String nama_petugas;
+    @SerializedName("shift")
+    private String shift;
 
     protected Laporan(Parcel in) {
         kode = in.readString();
@@ -43,6 +47,24 @@ public class Laporan implements Parcelable {
         penanganan = in.readString();
         keterangan = in.readString();
         file = in.readString();
+        nama_petugas = in.readString();
+        shift = in.readString();
+    }
+
+    public String getShift() {
+        return shift;
+    }
+
+    public void setShift(String shift) {
+        this.shift = shift;
+    }
+
+    public String getNama_petugas() {
+        return nama_petugas;
+    }
+
+    public void setNama_petugas(String nama_petugas) {
+        this.nama_petugas = nama_petugas;
     }
 
     public String getKode() {
@@ -124,5 +146,7 @@ public class Laporan implements Parcelable {
         dest.writeString(penanganan);
         dest.writeString(keterangan);
         dest.writeString(file);
+        dest.writeString(nama_petugas);
+        dest.writeString(shift);
     }
 }
